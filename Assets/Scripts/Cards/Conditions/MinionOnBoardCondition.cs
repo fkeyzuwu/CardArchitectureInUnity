@@ -4,6 +4,7 @@ using UnityEngine;
 [Serializable]
 public class MinionOnBoardCondition : Condition
 {
+    public Alliance boardAlliance = Alliance.None;
     public override void ListenForCondition()
     {
         EventManager.Instance.OnMinionPlayed += OnConditionEventTrigger;
@@ -12,9 +13,17 @@ public class MinionOnBoardCondition : Condition
 
     public override void OnConditionEventTrigger(IEventTrigger eventTrigger)
     {
-        if(eventTrigger is OnMinionPlayedEvent minionPlayedEvent)
+        //for hadgama: ownerID 1 is player, ownerID 2 is enemy
+        //ingame will use the actual player ID from the client, like MyID variable
+        if (eventTrigger is OnMinionPlayedEvent minionPlayedEvent)
         {
-            if(minionPlayedEvent.minionPlayed.OwnerID == 1) //ingame will use the actual player ID from the client, like MyID variable
+            if (minionPlayedEvent.minionPlayed.OwnerID == 1 && (boardAlliance == Alliance.Player || boardAlliance == Alliance.All))
+            {
+                if (!isMet) isMet = true;
+                return;
+            }
+            
+            if (minionPlayedEvent.minionPlayed.OwnerID == 2 && (boardAlliance == Alliance.Enemy || boardAlliance == Alliance.All))
             {
                 if (!isMet) isMet = true;
                 return;
@@ -23,9 +32,27 @@ public class MinionOnBoardCondition : Condition
 
         if(eventTrigger is OnMinionDiedEvent minionDiedEvent)
         {
-            if (minionDiedEvent.minionDied.OwnerID == 1) //ingame will use the actual player ID from the client, like MyID variable
+            if (minionDiedEvent.minionDied.OwnerID == 1 && (boardAlliance == Alliance.Player))
             {
-                if (minionDiedEvent.Player1MinionsOnBoard == 1)
+                if (minionDiedEvent.Player1MinionsOnBoard == 0)
+                {
+                    isMet = false;
+                    return;
+                }
+            }
+
+            if (minionDiedEvent.minionDied.OwnerID == 2 && (boardAlliance == Alliance.Enemy))
+            {
+                if (minionDiedEvent.Player2MinionsOnBoard == 0)
+                {
+                    isMet = false;
+                    return;
+                }
+            }
+
+            if(boardAlliance == Alliance.All)
+            {
+                if (minionDiedEvent.Player1MinionsOnBoard == 0 && minionDiedEvent.Player2MinionsOnBoard == 0)
                 {
                     isMet = false;
                     return;
