@@ -7,9 +7,10 @@ public class Card : ScriptableObject
 {
     public new string name;
     public string description;
-    public int health;
-    public int attack;
-    public int mana;
+    public CardType type;
+    public int baseHealth;
+    public int baseAttack;
+    public int baseMana;
 
     [SerializeReference] public List<CardEffect> effects = new List<CardEffect>();
 }

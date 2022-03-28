@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: DamagerGuy
   description: 'Battlecry: Deal 5 damage to an enemy.'
-  health: 4
-  attack: 4
-  mana: 5
+  type: 0
+  baseHealth: 4
+  baseAttack: 4
+  baseMana: 5
   effects:
   - id: 0
   references:
