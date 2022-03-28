@@ -15,6 +15,8 @@
         health = data.baseHealth;
         attack = data.baseAttack;
         mana = data.baseMana;
+        boardState = BoardState.Deck;
+        //also get owner id
     }
 }
 

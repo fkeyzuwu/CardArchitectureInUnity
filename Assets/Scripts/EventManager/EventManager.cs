@@ -24,7 +24,7 @@ public class EventManager : MonoBehaviour
 
 public class OnMinionPlayedEvent : IEventTrigger
 {
-    public Minion minionPlayed;
+    public MinionCard minionPlayed;
     public int Player1MinionsOnBoard
     {
         get => DataManager.Instance.player1MinionsOnBoard;
@@ -38,7 +38,7 @@ public class OnMinionPlayedEvent : IEventTrigger
 
 public class OnMinionDiedEvent : IEventTrigger
 {
-    public Minion minionDied;
+    public MinionCard minionDied;
     public int Player1MinionsOnBoard
     {
         get => DataManager.Instance.player1MinionsOnBoard;
