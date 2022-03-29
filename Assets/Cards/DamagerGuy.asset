@@ -20,45 +20,20 @@ MonoBehaviour:
   baseMana: 5
   effects:
   - id: 0
-  - id: 1
   references:
     version: 1
     00000000:
       type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
         effectName: DamageEffect
-        activationType: 1
+        activationType: 2
         target:
-          id: 2
+          id: 1
         activationConditions: []
-        damageAmount: 5
+        damageAmount: 23
     00000001:
-      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
-      data:
-        effectName: DamageEffect
-        activationType: 0
-        target:
-          id: 3
-        activationConditions:
-        - id: 4
-        damageAmount: 0
-    00000002:
       type: {class: Target, ns: , asm: Assembly-CSharp}
       data:
-        targetType: 1
-        alliance: 2
-        isTargeted: 1
-    00000003:
-      type: {class: Target, ns: , asm: Assembly-CSharp}
-      data:
-        targetType: 0
-        alliance: 0
+        targetType: 3
+        alliance: 1
         isTargeted: 0
-    00000004:
-      type: {class: MinionOnBoardCondition, ns: , asm: Assembly-CSharp}
-      data:
-        conditionName: MinionOnBoardCondition
-        isMet: 0
-        boardAlliance: 1
-        tribeRequired: 0
-        minionAmountRequired: 1
