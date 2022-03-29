@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
-    public int player1MinionsOnBoard;
-    public int player2MinionsOnBoard;
+    public List<MinionCard> player1MinionsOnBoard = new List<MinionCard>();
+    public List<MinionCard> player2MinionsOnBoard = new List<MinionCard>();
     void Start()
     {
         #region Singleton
@@ -27,25 +28,25 @@ public class DataManager : MonoBehaviour
 
     public void UpdateMinionPlayedData(OnMinionPlayedEvent minionPlayedEvent)
     {
-        if (minionPlayedEvent.minionPlayed.OwnerID == 1)
+        if (minionPlayedEvent.minion.OwnerID == 1)
         {
-            player1MinionsOnBoard++;
+            player1MinionsOnBoard.Add(minionPlayedEvent.minion);
         }
         else
         {
-            player2MinionsOnBoard++;
+            player2MinionsOnBoard.Add(minionPlayedEvent.minion);
         }
     }
 
     public void UpdateMinionDiedData(OnMinionDiedEvent minionDiedEvent)
     {
-        if (minionDiedEvent.minionDied.OwnerID == 1)
+        if (minionDiedEvent.minion.OwnerID == 1)
         {
-            player1MinionsOnBoard--;
-        }
-        else
-        {
-            player2MinionsOnBoard--;
+            player1MinionsOnBoard.Remove(minionDiedEvent.minion);
+        }                                      
+        else                                   
+        {                                      
+            player2MinionsOnBoard.Remove(minionDiedEvent.minion);
         }
     }
 }

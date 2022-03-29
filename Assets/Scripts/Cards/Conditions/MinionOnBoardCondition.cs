@@ -5,6 +5,12 @@ using UnityEngine;
 public class MinionOnBoardCondition : Condition
 {
     public Alliance boardAlliance = Alliance.None;
+
+    [Range(1, 6)]
+    public int minionAmount = 1;
+
+    public bool isTribeRequired = false;
+    public Tribe tribe = Tribe.None;
     public override void ListenForCondition()
     {
         EventManager.Instance.OnMinionPlayed += OnConditionEventTrigger;
@@ -17,47 +23,14 @@ public class MinionOnBoardCondition : Condition
         //ingame will use the actual player ID from the client, like MyID variable
         if (eventTrigger is OnMinionPlayedEvent minionPlayedEvent)
         {
-            if (minionPlayedEvent.minionPlayed.OwnerID == 1 && (boardAlliance == Alliance.Player || boardAlliance == Alliance.All))
-            {
-                if (!isMet) isMet = true;
-                return;
-            }
-            
-            if (minionPlayedEvent.minionPlayed.OwnerID == 2 && (boardAlliance == Alliance.Enemy || boardAlliance == Alliance.All))
-            {
-                if (!isMet) isMet = true;
-                return;
-            }
+            OnMinionPlayedEventTrigger(minionPlayedEvent);
+            return;
         }
 
         if(eventTrigger is OnMinionDiedEvent minionDiedEvent)
         {
-            if (minionDiedEvent.minionDied.OwnerID == 1 && (boardAlliance == Alliance.Player))
-            {
-                if (minionDiedEvent.Player1MinionsOnBoard == 0)
-                {
-                    isMet = false;
-                    return;
-                }
-            }
-
-            if (minionDiedEvent.minionDied.OwnerID == 2 && (boardAlliance == Alliance.Enemy))
-            {
-                if (minionDiedEvent.Player2MinionsOnBoard == 0)
-                {
-                    isMet = false;
-                    return;
-                }
-            }
-
-            if(boardAlliance == Alliance.All)
-            {
-                if (minionDiedEvent.Player1MinionsOnBoard == 0 && minionDiedEvent.Player2MinionsOnBoard == 0)
-                {
-                    isMet = false;
-                    return;
-                }
-            }
+            OnMinionDiedEventTrigger(minionDiedEvent);
+            return;
         }
 
         Debug.Log("unknown EventTrigger reached this method.");
@@ -65,5 +38,68 @@ public class MinionOnBoardCondition : Condition
         //Will be called when a minion is played on board on either player/enemy/both AND when a minion is removed from the board.
         //it will be called at the end of the chain of actions that might have happened.
         //Depending on the type of alliance you decided on, you would subscribe this method to a different event. //maybe
+    }
+
+    public void OnMinionPlayedEventTrigger(OnMinionPlayedEvent minionPlayedEvent)
+    {
+        if (minionPlayedEvent.minion.OwnerID == 1 && (boardAlliance == Alliance.Player || boardAlliance == Alliance.All))
+        {
+            if(isTribeRequired && tribe == minionPlayedEvent.minion.tribe)
+            {
+                int currentMinionAmount = minionPlayedEvent.GetMinionCount(minionPlayedEvent.Player1MinionsOnBoard, tribe);
+                isMet = currentMinionAmount < minionAmount ? true : false; 
+            }
+            else
+            {
+                int currentMinionAmount = minionPlayedEvent.Player1MinionsOnBoard.Count;
+                isMet = currentMinionAmount < minionAmount ? true : false;
+            }
+            return;
+        }
+
+        if (minionPlayedEvent.minion.OwnerID == 2 && (boardAlliance == Alliance.Enemy || boardAlliance == Alliance.All))
+        {
+            if (isTribeRequired && tribe == minionPlayedEvent.minion.tribe)
+            {
+                int currentMinionAmount = minionPlayedEvent.GetMinionCount(minionPlayedEvent.Player2MinionsOnBoard, tribe);
+                isMet = currentMinionAmount < minionAmount ? true : false;
+            }
+            else
+            {
+                int currentMinionAmount = minionPlayedEvent.Player2MinionsOnBoard.Count;
+                isMet = currentMinionAmount < minionAmount ? true : false;
+            }
+            return;
+        }
+    }
+
+    public void OnMinionDiedEventTrigger(OnMinionDiedEvent minionDiedEvent)
+    {
+        if (minionDiedEvent.minion.OwnerID == 1 && (boardAlliance == Alliance.Player))
+        {
+            if (minionDiedEvent.Player1MinionsOnBoard.Count == 0)
+            {
+                isMet = false;
+                return;
+            }
+        }
+
+        if (minionDiedEvent.minion.OwnerID == 2 && (boardAlliance == Alliance.Enemy))
+        {
+            if (minionDiedEvent.Player2MinionsOnBoard.Count == 0)
+            {
+                isMet = false;
+                return;
+            }
+        }
+
+        if (boardAlliance == Alliance.All)
+        {
+            if (minionDiedEvent.Player1MinionsOnBoard.Count == 0 && minionDiedEvent.Player2MinionsOnBoard.Count == 0)
+            {
+                isMet = false;
+                return;
+            }
+        }
     }
 }

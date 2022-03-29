@@ -22,30 +22,40 @@ public class EventManager : MonoBehaviour
     }
 }
 
-public class OnMinionPlayedEvent : IEventTrigger
+public abstract class OnMinionBoardEvent : IEventTrigger
 {
-    public MinionCard minionPlayed;
-    public int Player1MinionsOnBoard
+    public MinionCard minion;
+    public List<MinionCard> Player1MinionsOnBoard
     {
         get => DataManager.Instance.player1MinionsOnBoard;
     }
 
-    public int Player2MinionsOnBoard
+    public List<MinionCard> Player2MinionsOnBoard
     {
         get => DataManager.Instance.player2MinionsOnBoard;
     }
-}
 
-public class OnMinionDiedEvent : IEventTrigger
-{
-    public MinionCard minionDied;
-    public int Player1MinionsOnBoard
+    public int GetMinionCount(List<MinionCard> minions, Tribe tribe)
     {
-        get => DataManager.Instance.player1MinionsOnBoard;
+        int minionCount = 0;
+
+        foreach (MinionCard minion in minions)
+        {
+            if (minion.tribe == tribe)
+            {
+                minionCount++;
+            }
+        }
+
+        return minionCount;
     }
 
-    public int Player2MinionsOnBoard
+    public int GetMinionCount(List<MinionCard> minions)
     {
-        get => DataManager.Instance.player2MinionsOnBoard;
+        return minions.Count;
     }
 }
+
+public class OnMinionPlayedEvent : OnMinionBoardEvent { }
+
+public class OnMinionDiedEvent : OnMinionBoardEvent { }
