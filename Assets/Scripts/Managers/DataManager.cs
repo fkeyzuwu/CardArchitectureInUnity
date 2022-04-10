@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class DataManager : MonoBehaviour
@@ -22,12 +23,14 @@ public class DataManager : MonoBehaviour
 
         #endregion
 
-        EventManager.Instance.OnMinionPlayed += UpdateMinionPlayedData;
-        EventManager.Instance.OnMinionDied += UpdateMinionDiedData;
+        EventManager.Instance.AddPerformListener(typeof(OnMinionPlayedEvent), UpdateMinionPlayedData);
+        EventManager.Instance.AddPerformListener(typeof(OnMinionDiedEvent), UpdateMinionDiedData);
     }
 
-    public void UpdateMinionPlayedData(OnMinionPlayedEvent minionPlayedEvent)
+    public void UpdateMinionPlayedData(EventTrigger eventTrigger)
     {
+        var minionPlayedEvent = eventTrigger as OnMinionPlayedEvent;
+
         if (minionPlayedEvent.minion.OwnerID == 1)
         {
             player1MinionsOnBoard.Add(minionPlayedEvent.minion);
@@ -38,14 +41,16 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void UpdateMinionDiedData(OnMinionDiedEvent minionDiedEvent)
+    public void UpdateMinionDiedData(EventTrigger eventTrigger)
     {
+        var minionDiedEvent = eventTrigger as OnMinionDiedEvent;
+
         if (minionDiedEvent.minion.OwnerID == 1)
         {
             player1MinionsOnBoard.Remove(minionDiedEvent.minion);
-        }                                      
-        else                                   
-        {                                      
+        }
+        else
+        {
             player2MinionsOnBoard.Remove(minionDiedEvent.minion);
         }
     }

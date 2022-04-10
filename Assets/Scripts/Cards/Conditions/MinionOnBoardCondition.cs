@@ -6,18 +6,18 @@ public class MinionOnBoardCondition : Condition
 {
     public Alliance boardAlliance = Alliance.None;
 
-    [Range(1, 6)]
+    [Range(1, 7)]
     public int minionAmount = 1;
 
     public bool isTribeRequired = false;
     public Tribe tribe = Tribe.None;
     public override void ListenForCondition()
     {
-        EventManager.Instance.OnMinionPlayed += OnConditionEventTrigger;
-        EventManager.Instance.OnMinionDied += OnConditionEventTrigger;
+        EventManager.Instance.AddPerformListener(typeof(OnMinionPlayedEvent), OnConditionEventTrigger);
+        EventManager.Instance.AddPerformListener(typeof(OnMinionDiedEvent), OnConditionEventTrigger);
     }
 
-    public override void OnConditionEventTrigger(IEventTrigger eventTrigger)
+    public override void OnConditionEventTrigger(EventTrigger eventTrigger)
     {
         //for hadgama: ownerID 1 is player, ownerID 2 is enemy
         //ingame will use the actual player ID from the client, like MyID variable
@@ -40,7 +40,7 @@ public class MinionOnBoardCondition : Condition
         //Depending on the type of alliance you decided on, you would subscribe this method to a different event. //maybe
     }
 
-    public void OnMinionPlayedEventTrigger(OnMinionPlayedEvent minionPlayedEvent)
+    private void OnMinionPlayedEventTrigger(OnMinionPlayedEvent minionPlayedEvent)
     {
         if (minionPlayedEvent.minion.OwnerID == 1 && (boardAlliance == Alliance.Player || boardAlliance == Alliance.All))
         {
@@ -73,7 +73,7 @@ public class MinionOnBoardCondition : Condition
         }
     }
 
-    public void OnMinionDiedEventTrigger(OnMinionDiedEvent minionDiedEvent)
+    private void OnMinionDiedEventTrigger(OnMinionDiedEvent minionDiedEvent)
     {
         if (minionDiedEvent.minion.OwnerID == 1 && (boardAlliance == Alliance.Player))
         {
