@@ -17,16 +17,50 @@ public class CardEditor : Editor
 
     private int currentCardEffectConditions = 0;
 
+    private new SerializedProperty name;
+    private SerializedProperty description;
+    private SerializedProperty cardType;
+    private SerializedProperty baseHealth;
+    private SerializedProperty baseAttack;
+    private SerializedProperty baseMana;
+    private SerializedProperty effects;
+
+    private CardType cardTypeState;
+
     void OnEnable()
     {
         for(int i = 0; i < conditionImplementationTypeIndexs.Length; i++)
         {
             conditionImplementationTypeIndexs[i] = int.MaxValue;
         }
+
+        name = serializedObject.FindProperty("name");
+        description = serializedObject.FindProperty("description");
+        cardType = serializedObject.FindProperty("cardType");
+        baseHealth = serializedObject.FindProperty("baseHealth");
+        baseAttack = serializedObject.FindProperty("baseAttack");
+        baseMana = serializedObject.FindProperty("baseMana");
+        effects = serializedObject.FindProperty("effects");
     }
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
+        serializedObject.Update();
+
+        EditorGUILayout.PropertyField(name);
+        EditorGUILayout.PropertyField(description);
+        cardTypeState = (CardType)EditorGUILayout.EnumPopup("Card Type", cardTypeState);
+
+        if(cardTypeState == CardType.Minion)
+        {
+            EditorGUILayout.PropertyField(baseHealth);
+            EditorGUILayout.PropertyField(baseAttack);
+        }
+
+        EditorGUILayout.PropertyField(baseMana);
+        EditorGUILayout.PropertyField(effects, true);
+
+        //base.OnInspectorGUI();
+
 
         Card card = target as Card;
         //specify type
@@ -77,6 +111,8 @@ public class CardEditor : Editor
                 conditionImplementationTypeIndexs[currentCardEffectConditions] = int.MaxValue;
             }
         }
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     private static Type[] GetImplementations<T>()
