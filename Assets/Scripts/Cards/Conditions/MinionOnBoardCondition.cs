@@ -24,12 +24,14 @@ public class MinionOnBoardCondition : Condition
         if (eventTrigger is OnMinionPlayedEvent minionPlayedEvent)
         {
             OnMinionPlayedEventTrigger(minionPlayedEvent);
+            Debug.Log($"condition is met : {isMet}");
             return;
         }
 
         if(eventTrigger is OnMinionDiedEvent minionDiedEvent)
         {
             OnMinionDiedEventTrigger(minionDiedEvent);
+            Debug.Log($"condition is met : {isMet}");
             return;
         }
 
@@ -47,12 +49,12 @@ public class MinionOnBoardCondition : Condition
             if(isTribeRequired && tribe == minionPlayedEvent.minion.tribe)
             {
                 int currentMinionAmount = minionPlayedEvent.GetMinionCount(minionPlayedEvent.Player1MinionsOnBoard, tribe);
-                isMet = currentMinionAmount < minionAmount ? true : false; 
+                isMet = currentMinionAmount >= minionAmount ? true : false; 
             }
             else
             {
                 int currentMinionAmount = minionPlayedEvent.Player1MinionsOnBoard.Count;
-                isMet = currentMinionAmount < minionAmount ? true : false;
+                isMet = currentMinionAmount >= minionAmount ? true : false;
             }
             return;
         }
@@ -62,12 +64,12 @@ public class MinionOnBoardCondition : Condition
             if (isTribeRequired && tribe == minionPlayedEvent.minion.tribe)
             {
                 int currentMinionAmount = minionPlayedEvent.GetMinionCount(minionPlayedEvent.Player2MinionsOnBoard, tribe);
-                isMet = currentMinionAmount < minionAmount ? true : false;
+                isMet = currentMinionAmount >= minionAmount ? true : false;
             }
             else
             {
                 int currentMinionAmount = minionPlayedEvent.Player2MinionsOnBoard.Count;
-                isMet = currentMinionAmount < minionAmount ? true : false;
+                isMet = currentMinionAmount >= minionAmount ? true : false;
             }
             return;
         }

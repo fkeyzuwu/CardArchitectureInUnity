@@ -1,12 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class DrawCardsEffect : CardEffect
 {
-    public int cardAmount;
-
-    public override void Activate(params ICardEffectArgument[] args)
-    {
-        
-    }
+    public int amount;
+    public List<BaseCard> cards;
 }

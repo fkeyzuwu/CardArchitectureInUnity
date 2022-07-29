@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpellCard : BaseCard
 {
-    public SpellCard(Card card) : base(card)
+    public override void InitiallizeCard(Card card)
     {
-
+        base.InitiallizeCard(card);
     }
 }

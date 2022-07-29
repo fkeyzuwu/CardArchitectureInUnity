@@ -19,6 +19,7 @@ public class CardEditor : Editor
 
     private new SerializedProperty name;
     private SerializedProperty description;
+    private SerializedProperty sprite;
     private SerializedProperty cardType;
     private SerializedProperty baseHealth;
     private SerializedProperty baseAttack;
@@ -36,6 +37,7 @@ public class CardEditor : Editor
 
         name = serializedObject.FindProperty("name");
         description = serializedObject.FindProperty("description");
+        sprite = serializedObject.FindProperty("sprite");
         cardType = serializedObject.FindProperty("cardType");
         baseHealth = serializedObject.FindProperty("baseHealth");
         baseAttack = serializedObject.FindProperty("baseAttack");
@@ -48,6 +50,7 @@ public class CardEditor : Editor
 
         EditorGUILayout.PropertyField(name);
         EditorGUILayout.PropertyField(description);
+        EditorGUILayout.PropertyField(sprite);
         cardTypeState = (CardType)EditorGUILayout.EnumPopup("Card Type", cardTypeState);
 
         if(cardTypeState == CardType.Minion)

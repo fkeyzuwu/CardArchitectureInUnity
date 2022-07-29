@@ -10,40 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d61a0793fc84b284ea4b1debfcbee6d0, type: 3}
-  m_Name: DamagerGuy
+  m_Name: Andrey
   m_EditorClassIdentifier: 
-  name: DamagerGuy
-  description: 'Battlecry: Deal 5 damage to an enemy.'
+  name: Andrey
+  description: Cooliest cool
+  sprite: {fileID: 21300000, guid: 8bd280dade976e24c97f59f5d55b05e4, type: 3}
   type: 0
-  baseHealth: 4
-  baseAttack: 4
-  baseMana: 5
+  baseHealth: 3
+  baseAttack: 7
+  baseMana: 3
   effects:
   - id: 0
   references:
     version: 1
     00000000:
-      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+      type: {class: HealEffect, ns: , asm: Assembly-CSharp}
       data:
-        effectName: DamageEffect
-        activationType: 2
+        effectName: HealEffect
+        activationType: 0
         target:
           id: 1
         activationConditions:
         - id: 2
-        damageAmount: 5
+        parent: {fileID: 0}
+        healAmount: 0
     00000001:
       type: {class: Target, ns: , asm: Assembly-CSharp}
       data:
-        targetType: 2
-        alliance: 1
+        targetType: 0
+        alliance: 0
         isTargeted: 0
+        selected: {fileID: 0}
     00000002:
       type: {class: MinionOnBoardCondition, ns: , asm: Assembly-CSharp}
       data:
         conditionName: MinionOnBoardCondition
-        isMet: 0
-        boardAlliance: 1
+        isMet: 1
+        boardAlliance: 3
         minionAmount: 1
-        isTribeRequired: 1
+        isTribeRequired: 0
         tribe: 0

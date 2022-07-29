@@ -13,7 +13,7 @@ public abstract class Condition
     }
 
     public abstract void ListenForCondition();
-    //call this when the card is created. 
+    //call this when the card is supposed to start waiting for conditions. 
     //this method should subscribe OnConditionEventTrigger() to different events based on the condition.
     public abstract void OnConditionEventTrigger(EventTrigger eventTrigger);
 }

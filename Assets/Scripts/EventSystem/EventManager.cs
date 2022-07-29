@@ -24,6 +24,7 @@ public class EventManager : MonoBehaviour
     }
     #endregion
 
+    //use listener events in order to react to a specific event type. whenever the event will happen, the action will activate
     public void AddPrepareListener(Type eventType, Action<EventTrigger> listenerMethod)
     {
         AddListener(eventType, listenerMethod, prepareEventListeners);
@@ -45,6 +46,7 @@ public class EventManager : MonoBehaviour
         eventListeners[eventType] += listenerMethod;
     }
 
+    //use to remove a listner method from activating when the event happens
     public void RemovePrepareListener(Type eventType, Action<EventTrigger> listenerMethod)
     {
         RemoveListener(eventType, listenerMethod, prepareEventListeners);
@@ -60,6 +62,7 @@ public class EventManager : MonoBehaviour
         eventListeners[eventType] -= listenerMethod;
     }
     
+    //use invoke events to invoke a new event so that listneres can react to it
     public void InvokePrepareEvent(EventTrigger eventTrigger)
     {
         InvokeEvent(eventTrigger, prepareEventListeners);
@@ -72,6 +75,9 @@ public class EventManager : MonoBehaviour
 
     private void InvokeEvent(EventTrigger eventTrigger, Dictionary<Type, Action<EventTrigger>> eventListeners)
     {
-        eventListeners[eventTrigger.GetType()].Invoke(eventTrigger);
+        if (eventListeners.ContainsKey(eventTrigger.GetType()))
+        {
+            eventListeners[eventTrigger.GetType()].Invoke(eventTrigger);
+        }
     }
 }

@@ -5,8 +5,8 @@ public class HealEffect : CardEffect
 {
     public int healAmount;
 
-    public override void Activate(params ICardEffectArgument[] args)
-    {
-        //in the args get the card that needs to be healed
-    }
+    //public override void Activate()
+    //{
+    //    //in the args get the card that needs to be healed
+    //}
 }
