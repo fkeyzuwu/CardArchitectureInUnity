@@ -6,6 +6,11 @@ public abstract class OnMinionBoardEvent : EventTrigger
     public List<MinionCard> Player1MinionsOnBoard { get => DataManager.Instance.player1MinionsOnBoard;}
     public List<MinionCard> Player2MinionsOnBoard { get => DataManager.Instance.player2MinionsOnBoard; }
 
+    public OnMinionBoardEvent(MinionCard minion)
+    {
+        this.minion = minion;
+    }
+
     public int GetMinionCount(List<MinionCard> minions, Tribe tribe)
     {
         int minionCount = 0;

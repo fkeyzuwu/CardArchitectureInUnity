@@ -10,7 +10,7 @@ public class EventManager : MonoBehaviour
     public Dictionary<Type, Action<EventTrigger>> performEventListeners = new Dictionary<Type, Action<EventTrigger>>();
 
     #region Singleton
-    void Start()
+    void Awake()
     {
         if (Instance == null)
         {
@@ -44,6 +44,8 @@ public class EventManager : MonoBehaviour
         }
 
         eventListeners[eventType] += listenerMethod;
+
+        Debug.Log($"Method {listenerMethod} for {eventListeners} added");
     }
 
     //use to remove a listner method from activating when the event happens
@@ -60,6 +62,7 @@ public class EventManager : MonoBehaviour
     private void RemoveListener(Type eventType, Action<EventTrigger> listenerMethod, Dictionary<Type, Action<EventTrigger>> eventListeners)
     {
         eventListeners[eventType] -= listenerMethod;
+        Debug.Log($"Method {listenerMethod} for {eventListeners} removed");
     }
     
     //use invoke events to invoke a new event so that listneres can react to it
@@ -79,5 +82,7 @@ public class EventManager : MonoBehaviour
         {
             eventListeners[eventTrigger.GetType()].Invoke(eventTrigger);
         }
+
+        Debug.Log($"Event of type {eventTrigger.GetType()} Invoked");
     }
 }

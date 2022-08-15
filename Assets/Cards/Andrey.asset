@@ -24,16 +24,16 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: HealEffect, ns: , asm: Assembly-CSharp}
+      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
       data:
-        effectName: HealEffect
+        effectName: DamageEffect
         activationType: 0
         target:
           id: 1
         activationConditions:
         - id: 2
         parent: {fileID: 0}
-        healAmount: 0
+        amount: 0
     00000001:
       type: {class: Target, ns: , asm: Assembly-CSharp}
       data:
@@ -46,6 +46,8 @@ MonoBehaviour:
       data:
         conditionName: MinionOnBoardCondition
         isMet: 1
+        startListenState: 3
+        stopListenState: 4
         boardAlliance: 3
         minionAmount: 1
         isTribeRequired: 0

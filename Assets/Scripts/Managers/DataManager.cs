@@ -7,10 +7,10 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
     public List<MinionCard> player1MinionsOnBoard = new List<MinionCard>();
     public List<MinionCard> player2MinionsOnBoard = new List<MinionCard>();
-    void Start()
-    {
-        #region Singleton
 
+    #region Singleton
+    void Awake()
+    {
         if (Instance == null)
         {
             Instance = this;
@@ -20,9 +20,11 @@ public class DataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    #endregion
 
-        #endregion
-
+    void Start()
+    {
         EventManager.Instance.AddPerformListener(typeof(OnMinionPlayedEvent), UpdateMinionPlayedData);
         EventManager.Instance.AddPerformListener(typeof(OnMinionDiedEvent), UpdateMinionDiedData);
     }

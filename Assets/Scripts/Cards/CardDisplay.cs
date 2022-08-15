@@ -23,7 +23,7 @@ public class CardDisplay : MonoBehaviour
         image.sprite = data.card.sprite;
         manaCostText.text = data.card.baseMana.ToString();
         attackText.text = data.card.baseAttack.ToString();
-        healthText.text = data.card.baseAttack.ToString();
+        healthText.text = data. card.baseAttack.ToString();
     }
 
     public void UpdateManaCostText(int manaCost)

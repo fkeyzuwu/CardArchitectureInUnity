@@ -11,10 +11,16 @@ public class MinionOnBoardCondition : Condition
 
     public bool isTribeRequired = false;
     public Tribe tribe = Tribe.None;
-    public override void ListenForCondition()
+    public override void AddListenForCondition()
     {
         EventManager.Instance.AddPerformListener(typeof(OnMinionPlayedEvent), OnConditionEventTrigger);
         EventManager.Instance.AddPerformListener(typeof(OnMinionDiedEvent), OnConditionEventTrigger);
+    }
+
+    public override void RemoveListenForCondition()
+    {
+        EventManager.Instance.RemovePerformListener(typeof(OnMinionPlayedEvent), OnConditionEventTrigger);
+        EventManager.Instance.RemovePerformListener(typeof(OnMinionDiedEvent), OnConditionEventTrigger);
     }
 
     public override void OnConditionEventTrigger(EventTrigger eventTrigger)

@@ -10,11 +10,15 @@ public class MinionOnBoardConditionPropertyDrawer : PropertyDrawer
     private bool isInitiallized = false;
 
     private Rect effectNameRect;
+    private Rect startListenStateRect;
+    private Rect stopListenStateRect;
     private Rect boardAllianceRect;
     private Rect minionAmountRect;
     private Rect isTribeRequiredRect;
     private Rect tribeRect;
 
+    private SerializedProperty startListenState;
+    private SerializedProperty stopListenState;
     private SerializedProperty boardAlliance;
     private SerializedProperty minionAmount;
     private SerializedProperty isTribeRequired;
@@ -26,12 +30,16 @@ public class MinionOnBoardConditionPropertyDrawer : PropertyDrawer
 
         if (!isInitiallized)
         {
-            effectNameRect = new Rect(position.xMin, position.yMin, position.width, 16);
-            boardAllianceRect = new Rect(position.x, position.y + 18, position.width, 16);
-            minionAmountRect = new Rect(position.x, position.y + 36, position.width, 16);
-            isTribeRequiredRect = new Rect(position.x, position.y + 54, position.width, 16);
-            tribeRect = new Rect(position.x, position.y + 72, position.width, 16);
+            startListenStateRect =  new Rect(position.xMin, position.yMin, position.width, 16);
+            stopListenStateRect =   new Rect(position.x, position.y + 18, position.width, 16);
+            effectNameRect =        new Rect(position.x, position.y + 36, position.width, 16);
+            boardAllianceRect =     new Rect(position.x, position.y + 54, position.width, 16);
+            minionAmountRect =      new Rect(position.x, position.y + 72, position.width, 16);
+            isTribeRequiredRect =   new Rect(position.x, position.y + 90, position.width, 16);
+            tribeRect =             new Rect(position.x, position.y + 108, position.width, 16);
 
+            startListenState = property.FindPropertyRelative("startListenState");
+            stopListenState = property.FindPropertyRelative("stopListenState");
             boardAlliance = property.FindPropertyRelative("boardAlliance");
             minionAmount = property.FindPropertyRelative("minionAmount");
             isTribeRequired = property.FindPropertyRelative("isTribeRequired");
@@ -44,6 +52,8 @@ public class MinionOnBoardConditionPropertyDrawer : PropertyDrawer
 
         EditorGUI.indentLevel++;
 
+        EditorGUI.PropertyField(startListenStateRect, startListenState);
+        EditorGUI.PropertyField(stopListenStateRect, stopListenState);
         EditorGUI.PropertyField(boardAllianceRect, boardAlliance);
         EditorGUI.PropertyField(minionAmountRect, minionAmount);
 
@@ -66,6 +76,6 @@ public class MinionOnBoardConditionPropertyDrawer : PropertyDrawer
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         //check if is tribe required and then change 4 to 5 accoridingly
-        return isTribeRequiredState ? EditorGUIUtility.singleLineHeight * 5 + 6 : EditorGUIUtility.singleLineHeight * 4 + 6;
+        return isTribeRequiredState ? EditorGUIUtility.singleLineHeight * 7 + 6 : EditorGUIUtility.singleLineHeight * 6 + 6;
     }
 }
