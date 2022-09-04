@@ -25,13 +25,13 @@ public class EventManager : MonoBehaviour
     #endregion
 
     //use listener events in order to react to a specific event type. whenever the event will happen, the action will activate
-    public void AddPrepareListener<T>(Action<EventTrigger> listenerMethod)
+    public void AddPrepareListener<T>(Action<EventTrigger> listenerMethod) where T : EventTrigger
     {
         AddListener<T>(listenerMethod, prepareEventListeners);
         Debug.Log($"Method {listenerMethod.Method.Name} for prepareEventListeners added");
     }
 
-    public void AddPerformListener<T>(Action<EventTrigger> listenerMethod)
+    public void AddPerformListener<T>(Action<EventTrigger> listenerMethod) where T : EventTrigger
     {
         AddListener<T>(listenerMethod, performEventListeners);
         Debug.Log($"Method {listenerMethod.Method.Name} for preformEventListeners added");
@@ -49,13 +49,13 @@ public class EventManager : MonoBehaviour
     }
 
     //use to remove a listner method from activating when the event happens
-    public void RemovePrepareListener<T>(Action<EventTrigger> listenerMethod)
+    public void RemovePrepareListener<T>(Action<EventTrigger> listenerMethod) where T : EventTrigger
     {
         RemoveListener<T>(listenerMethod, prepareEventListeners);
         Debug.Log($"Method {listenerMethod.Method.Name} for prepareEventListeners removed");
     }
 
-    public void RemovePerformListener<T>(Action<EventTrigger> listenerMethod)
+    public void RemovePerformListener<T>(Action<EventTrigger> listenerMethod) where T : EventTrigger
     {
         RemoveListener<T>(listenerMethod, performEventListeners);
         Debug.Log($"Method {listenerMethod.Method.Name} for preformEventListeners removed");
