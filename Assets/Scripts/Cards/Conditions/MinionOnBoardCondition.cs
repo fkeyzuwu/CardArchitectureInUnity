@@ -55,12 +55,12 @@ public class MinionOnBoardCondition : Condition
             if(isTribeRequired && tribe == minionPlayedEvent.minion.tribe)
             {
                 int currentMinionAmount = minionPlayedEvent.GetMinionCount(minionPlayedEvent.Player1MinionsOnBoard, tribe);
-                isMet = currentMinionAmount >= minionAmount ? true : false; 
+                isMet = currentMinionAmount >= minionAmount;
             }
             else
             {
                 int currentMinionAmount = minionPlayedEvent.Player1MinionsOnBoard.Count;
-                isMet = currentMinionAmount >= minionAmount ? true : false;
+                isMet = currentMinionAmount >= minionAmount;
             }
             return;
         }
@@ -70,12 +70,12 @@ public class MinionOnBoardCondition : Condition
             if (isTribeRequired && tribe == minionPlayedEvent.minion.tribe)
             {
                 int currentMinionAmount = minionPlayedEvent.GetMinionCount(minionPlayedEvent.Player2MinionsOnBoard, tribe);
-                isMet = currentMinionAmount >= minionAmount ? true : false;
+                isMet = currentMinionAmount >= minionAmount;
             }
             else
             {
                 int currentMinionAmount = minionPlayedEvent.Player2MinionsOnBoard.Count;
-                isMet = currentMinionAmount >= minionAmount ? true : false;
+                isMet = currentMinionAmount >= minionAmount;
             }
             return;
         }
@@ -83,31 +83,34 @@ public class MinionOnBoardCondition : Condition
 
     private void OnMinionDiedEventTrigger(OnMinionDiedEvent minionDiedEvent)
     {
-        if (minionDiedEvent.minion.OwnerID == 1 && (boardAlliance == Alliance.Player))
+        if (minionDiedEvent.minion.OwnerID == 1 && (boardAlliance == Alliance.Player || boardAlliance == Alliance.All))
         {
-            if (minionDiedEvent.Player1MinionsOnBoard.Count == 0)
+            if (isTribeRequired && tribe == minionDiedEvent.minion.tribe)
             {
-                isMet = false;
-                return;
+                int currentMinionAmount = minionDiedEvent.GetMinionCount(minionDiedEvent.Player1MinionsOnBoard, tribe);
+                isMet = currentMinionAmount >= minionAmount;
             }
+            else
+            {
+                int currentMinionAmount = minionDiedEvent.Player1MinionsOnBoard.Count;
+                isMet = currentMinionAmount >= minionAmount;
+            }
+            return;
         }
 
-        if (minionDiedEvent.minion.OwnerID == 2 && (boardAlliance == Alliance.Enemy))
+        if (minionDiedEvent.minion.OwnerID == 2 && (boardAlliance == Alliance.Enemy || boardAlliance == Alliance.All))
         {
-            if (minionDiedEvent.Player2MinionsOnBoard.Count == 0)
+            if (isTribeRequired && tribe == minionDiedEvent.minion.tribe)
             {
-                isMet = false;
-                return;
+                int currentMinionAmount = minionDiedEvent.GetMinionCount(minionDiedEvent.Player2MinionsOnBoard, tribe);
+                isMet = currentMinionAmount >= minionAmount;
             }
-        }
-
-        if (boardAlliance == Alliance.All)
-        {
-            if (minionDiedEvent.Player1MinionsOnBoard.Count == 0 && minionDiedEvent.Player2MinionsOnBoard.Count == 0)
+            else
             {
-                isMet = false;
-                return;
+                int currentMinionAmount = minionDiedEvent.Player2MinionsOnBoard.Count;
+                isMet = currentMinionAmount >= minionAmount;
             }
+            return;
         }
     }
 }

@@ -28,11 +28,13 @@ public class EventManager : MonoBehaviour
     public void AddPrepareListener(Type eventType, Action<EventTrigger> listenerMethod)
     {
         AddListener(eventType, listenerMethod, prepareEventListeners);
+        Debug.Log($"Method {listenerMethod.Method.Name} for prepareEventListeners added");
     }
 
     public void AddPerformListener(Type eventType, Action<EventTrigger> listenerMethod)
     {
         AddListener(eventType, listenerMethod, performEventListeners);
+        Debug.Log($"Method {listenerMethod.Method.Name} for preformEventListeners added");
     }
 
     private void AddListener(Type eventType, Action<EventTrigger> listenerMethod, Dictionary<Type, Action<EventTrigger>> eventListeners)
@@ -44,25 +46,24 @@ public class EventManager : MonoBehaviour
         }
 
         eventListeners[eventType] += listenerMethod;
-
-        Debug.Log($"Method {listenerMethod} for {eventListeners} added");
     }
 
     //use to remove a listner method from activating when the event happens
     public void RemovePrepareListener(Type eventType, Action<EventTrigger> listenerMethod)
     {
         RemoveListener(eventType, listenerMethod, prepareEventListeners);
+        Debug.Log($"Method {listenerMethod.Method.Name} for prepareEventListeners removed");
     }
 
     public void RemovePerformListener(Type eventType, Action<EventTrigger> listenerMethod)
     {
         RemoveListener(eventType, listenerMethod, performEventListeners);
+        Debug.Log($"Method {listenerMethod.Method.Name} for preformEventListeners removed");
     }
 
     private void RemoveListener(Type eventType, Action<EventTrigger> listenerMethod, Dictionary<Type, Action<EventTrigger>> eventListeners)
     {
         eventListeners[eventType] -= listenerMethod;
-        Debug.Log($"Method {listenerMethod} for {eventListeners} removed");
     }
     
     //use invoke events to invoke a new event so that listneres can react to it
