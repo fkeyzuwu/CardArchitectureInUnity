@@ -25,45 +25,45 @@ public class EventManager : MonoBehaviour
     #endregion
 
     //use listener events in order to react to a specific event type. whenever the event will happen, the action will activate
-    public void AddPrepareListener(Type eventType, Action<EventTrigger> listenerMethod)
+    public void AddPrepareListener<T>(Action<EventTrigger> listenerMethod)
     {
-        AddListener(eventType, listenerMethod, prepareEventListeners);
+        AddListener<T>(listenerMethod, prepareEventListeners);
         Debug.Log($"Method {listenerMethod.Method.Name} for prepareEventListeners added");
     }
 
-    public void AddPerformListener(Type eventType, Action<EventTrigger> listenerMethod)
+    public void AddPerformListener<T>(Action<EventTrigger> listenerMethod)
     {
-        AddListener(eventType, listenerMethod, performEventListeners);
+        AddListener<T>(listenerMethod, performEventListeners);
         Debug.Log($"Method {listenerMethod.Method.Name} for preformEventListeners added");
     }
 
-    private void AddListener(Type eventType, Action<EventTrigger> listenerMethod, Dictionary<Type, Action<EventTrigger>> eventListeners)
+    private void AddListener<T>(Action<EventTrigger> listenerMethod, Dictionary<Type, Action<EventTrigger>> eventListeners)
     {
-        if (!eventListeners.ContainsKey(eventType))
+        if (!eventListeners.ContainsKey(typeof(T)))
         {
             Action<EventTrigger> methodHolder = null;
-            eventListeners.Add(eventType, methodHolder);
+            eventListeners.Add(typeof(T), methodHolder);
         }
 
-        eventListeners[eventType] += listenerMethod;
+        eventListeners[typeof(T)] += listenerMethod;
     }
 
     //use to remove a listner method from activating when the event happens
-    public void RemovePrepareListener(Type eventType, Action<EventTrigger> listenerMethod)
+    public void RemovePrepareListener<T>(Action<EventTrigger> listenerMethod)
     {
-        RemoveListener(eventType, listenerMethod, prepareEventListeners);
+        RemoveListener<T>(listenerMethod, prepareEventListeners);
         Debug.Log($"Method {listenerMethod.Method.Name} for prepareEventListeners removed");
     }
 
-    public void RemovePerformListener(Type eventType, Action<EventTrigger> listenerMethod)
+    public void RemovePerformListener<T>(Action<EventTrigger> listenerMethod)
     {
-        RemoveListener(eventType, listenerMethod, performEventListeners);
+        RemoveListener<T>(listenerMethod, performEventListeners);
         Debug.Log($"Method {listenerMethod.Method.Name} for preformEventListeners removed");
     }
 
-    private void RemoveListener(Type eventType, Action<EventTrigger> listenerMethod, Dictionary<Type, Action<EventTrigger>> eventListeners)
+    private void RemoveListener<T>(Action<EventTrigger> listenerMethod, Dictionary<Type, Action<EventTrigger>> eventListeners)
     {
-        eventListeners[eventType] -= listenerMethod;
+        eventListeners[typeof(T)] -= listenerMethod;
     }
     
     //use invoke events to invoke a new event so that listneres can react to it

@@ -25,8 +25,8 @@ public class DataManager : MonoBehaviour
 
     void Start()
     {
-        EventManager.Instance.AddPerformListener(typeof(OnMinionPlayedEvent), UpdateMinionPlayedData);
-        EventManager.Instance.AddPerformListener(typeof(OnMinionDiedEvent), UpdateMinionDiedData);
+        EventManager.Instance.AddPerformListener<OnMinionPlayedEvent>(UpdateMinionPlayedData);
+        EventManager.Instance.AddPerformListener<OnMinionDiedEvent>(UpdateMinionDiedData);
     }
 
     public void UpdateMinionPlayedData(EventTrigger eventTrigger)
