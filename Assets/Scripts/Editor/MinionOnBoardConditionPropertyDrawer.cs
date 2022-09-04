@@ -30,9 +30,9 @@ public class MinionOnBoardConditionPropertyDrawer : PropertyDrawer
 
         if (!isInitiallized)
         {
-            startListenStateRect =  new Rect(position.xMin, position.yMin, position.width, 16);
-            stopListenStateRect =   new Rect(position.x, position.y + 18, position.width, 16);
-            effectNameRect =        new Rect(position.x, position.y + 36, position.width, 16);
+            effectNameRect =        new Rect(position.xMin, position.yMin, position.width, 16);
+            startListenStateRect =  new Rect(position.x, position.y + 18, position.width, 16);
+            stopListenStateRect =   new Rect(position.x, position.y + 36, position.width, 16);
             boardAllianceRect =     new Rect(position.x, position.y + 54, position.width, 16);
             minionAmountRect =      new Rect(position.x, position.y + 72, position.width, 16);
             isTribeRequiredRect =   new Rect(position.x, position.y + 90, position.width, 16);
@@ -75,7 +75,7 @@ public class MinionOnBoardConditionPropertyDrawer : PropertyDrawer
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        //check if is tribe required and then change 4 to 5 accoridingly
+        //check if is tribe required and then change 7 to 6 accoridingly
         return isTribeRequiredState ? EditorGUIUtility.singleLineHeight * 7 + 6 : EditorGUIUtility.singleLineHeight * 6 + 6;
     }
 }
